@@ -30,7 +30,7 @@ const ROLE_PAGES = {
   printer: { '/home': HomePage, '/production': BookletsPage, '/booklets': BookletsPage, '/reports': ReportsPage },
   central: { '/home': HomePage, '/exams': ExamsPage, '/courses': CoursesPage, '/approvals': ApprovalsPage, '/reports': ReportsPage },
   committee: { '/home': HomePage, '/cases': CasesPage, '/hearings': HearingsPage, '/reports': ReportsPage },
-  institutional: { '/home': HomePage, '/users': UsersPage, '/roles': UsersPage, '/exams': ExamsPage, '/reports': ReportsPage },
+  institutional: { '/home': HomePage, '/users': UsersPage, '/exams': ExamsPage, '/reports': ReportsPage },
   superadmin: { '/home': HomePage, '/tenants': TenantsPage, '/admins': UsersPage, '/financials': FinancialsPage, '/reports': ReportsPage }
 };
 

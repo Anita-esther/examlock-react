@@ -29,6 +29,7 @@ a{color:inherit}
 .btn.ghost{background:#102238;color:#d7e0ec;border:1px solid #27405f}
 .btn.full{width:100%}
 .btn:disabled{opacity:.6;cursor:default}
+.btn.sm{padding:6px 12px;font-weight:700;border-radius:10px;font-size:13px}
 .alert{padding:14px;border-radius:15px;border:1px solid #2a3950;background:#0a1626;margin-bottom:16px}
 .alert.warning{border-color:rgba(255,156,66,.42)}
 .alert b{display:block;margin-bottom:4px}
