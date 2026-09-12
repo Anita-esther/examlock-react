@@ -3,6 +3,7 @@ export const roleNavigation = {
     { label: 'Home', route: '/home', icon: '⌂' },
     { label: 'Courses', route: '/courses', icon: '▤' },
     { label: 'Exams', route: '/exams', icon: '▣' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ],
   lecturer: [
@@ -10,12 +11,14 @@ export const roleNavigation = {
     { label: 'Operations', route: '/operations', icon: '◎' },
     { label: 'Courses', route: '/courses', icon: '▤' },
     { label: 'Exams', route: '/exams', icon: '▣' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ],
   invigilator: [
     { label: 'Home', route: '/home', icon: '⌂' },
     { label: 'Operations', route: '/operations', icon: '◎' },
     { label: 'Exams', route: '/exams', icon: '▣' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ],
   hod: [
@@ -23,18 +26,21 @@ export const roleNavigation = {
     { label: 'Courses', route: '/courses', icon: '▤' },
     { label: 'Students', route: '/students', icon: '♙' },
     { label: 'Exams', route: '/exams', icon: '▣' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ],
   qa: [
     { label: 'Home', route: '/home', icon: '⌂' },
     { label: 'Live', route: '/live', icon: '◉' },
     { label: 'Integrity', route: '/integrity', icon: '◇' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ],
   printer: [
     { label: 'Home', route: '/home', icon: '⌂' },
     { label: 'Production', route: '/production', icon: '▣' },
     { label: 'Booklets', route: '/booklets', icon: '▤' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ],
   central: [
@@ -42,18 +48,21 @@ export const roleNavigation = {
     { label: 'Exams', route: '/exams', icon: '▣' },
     { label: 'Courses', route: '/courses', icon: '▤' },
     { label: 'Approvals', route: '/approvals', icon: '✓' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ],
   committee: [
     { label: 'Home', route: '/home', icon: '⌂' },
     { label: 'Cases', route: '/cases', icon: '▤' },
     { label: 'Hearings', route: '/hearings', icon: '⚖' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ],
   institutional: [
     { label: 'Home', route: '/home', icon: '⌂' },
     { label: 'Users', route: '/users', icon: '♙' },
     { label: 'Exams', route: '/exams', icon: '▣' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ],
   superadmin: [
@@ -61,21 +70,22 @@ export const roleNavigation = {
     { label: 'Tenants', route: '/tenants', icon: '▤' },
     { label: 'Admins', route: '/admins', icon: '♙' },
     { label: 'Financials', route: '/financials', icon: '¤' },
+    { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Reports', route: '/reports', icon: '▥' }
   ]
 };
 
 export const roleRoutes = {
-  student: ['/home','/courses','/courses/registration','/courses/history','/courses/detail','/exams','/exams/detail','/exams/cycle','/exams/misconduct','/reports'],
-  lecturer: ['/home','/operations','/operations/identity-attendance','/operations/pair-booklet','/operations/return-booklet','/operations/pre-marking','/courses','/courses/detail','/courses/registered-students','/exams','/exams/detail','/exams/students-lifecycle','/reports'],
-  invigilator: ['/home','/operations','/operations/identity-attendance','/operations/pair-booklet','/operations/return-booklet','/operations/pre-marking','/exams','/exams/detail','/exams/students-lifecycle','/reports'],
-  hod: ['/home','/courses','/courses/manage','/courses/assign-lecturers','/courses/venues','/students','/students/manage','/students/import','/exams','/exams/prepare','/exams/activate','/exams/assign-invigilators','/exams/venue-change','/exams/students-lifecycle','/reports'],
-  qa: ['/home','/live','/live/venues','/live/exams','/live/map','/integrity','/integrity/anomalies','/integrity/investigations','/integrity/risks','/integrity/alerts','/reports'],
-  printer: ['/home','/production','/production/queue','/production/batches','/production/quality','/production/encoding','/booklets','/booklets/inventory','/booklets/dispatch','/booklets/returns','/reports'],
-  central: ['/home','/exams','/exams/timetable','/exams/calendar','/exams/live','/exams/readiness','/exams/venues','/courses','/courses/readiness','/approvals','/approvals/venue-change','/approvals/activation','/reports'],
-  committee: ['/home','/cases','/cases/detail','/cases/evidence','/cases/timeline','/cases/appeals','/hearings','/hearings/session','/hearings/decision','/reports'],
-  institutional: ['/home','/users','/exams','/exams/timetable','/exams/venues','/exams/live','/reports','/settings','/policies','/integrations','/audit'],
-  superadmin: ['/home','/tenants','/tenants/detail','/admins','/admins/financials','/financials','/financials/revenue','/financials/subscriptions','/financials/pricing','/financials/billing','/financials/payments','/financials/metering','/financials/commercialization','/financials/partners','/financials/settlements','/financials/contracts','/financials/taxes','/financials/audit','/reports','/system-health','/security','/audit']
+  student: ['/home','/courses','/courses/registration','/courses/history','/courses/detail','/exams','/exams/detail','/exams/cycle','/exams/misconduct','/my-role','/reports'],
+  lecturer: ['/home','/operations','/operations/identity-attendance','/operations/pair-booklet','/operations/return-booklet','/operations/pre-marking','/courses','/courses/detail','/courses/registered-students','/exams','/exams/detail','/exams/students-lifecycle','/my-role','/reports'],
+  invigilator: ['/home','/operations','/operations/identity-attendance','/operations/pair-booklet','/operations/return-booklet','/operations/pre-marking','/exams','/exams/detail','/exams/students-lifecycle','/my-role','/reports'],
+  hod: ['/home','/courses','/courses/manage','/courses/assign-lecturers','/courses/venues','/students','/students/manage','/students/import','/exams','/exams/prepare','/exams/activate','/exams/assign-invigilators','/exams/venue-change','/exams/students-lifecycle','/my-role','/reports'],
+  qa: ['/home','/live','/live/venues','/live/exams','/live/map','/integrity','/integrity/anomalies','/integrity/investigations','/integrity/risks','/integrity/alerts','/my-role','/reports'],
+  printer: ['/home','/production','/production/queue','/production/batches','/production/quality','/production/encoding','/booklets','/booklets/inventory','/booklets/dispatch','/booklets/returns','/my-role','/reports'],
+  central: ['/home','/exams','/exams/timetable','/exams/calendar','/exams/live','/exams/readiness','/exams/venues','/courses','/courses/readiness','/approvals','/approvals/venue-change','/approvals/activation','/my-role','/reports'],
+  committee: ['/home','/cases','/cases/detail','/cases/evidence','/cases/timeline','/cases/appeals','/hearings','/hearings/session','/hearings/decision','/my-role','/reports'],
+  institutional: ['/home','/users','/exams','/exams/timetable','/exams/venues','/exams/live','/my-role','/reports','/settings','/policies','/integrations','/audit'],
+  superadmin: ['/home','/tenants','/tenants/detail','/admins','/admins/financials','/financials','/financials/revenue','/financials/subscriptions','/financials/pricing','/financials/billing','/financials/payments','/financials/metering','/financials/commercialization','/financials/partners','/financials/settlements','/financials/contracts','/financials/taxes','/financials/audit','/my-role','/reports','/system-health','/security','/audit']
 };
 
 export const roleLabels = {

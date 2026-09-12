@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../auth/AuthContext';
 import { useSupabaseQuery } from '../../hooks/useSupabaseQuery';
 import { supabase } from '../../lib/supabaseClient';
-import { adminCreateUser, adminSetUserStatus } from '../../lib/adminApi';
+import { adminCreateUser, adminSetUserStatus, adminResetPassword } from '../../lib/adminApi';
 import DataTable, { StatusChip } from '../../components/DataTable';
 
 // Superadmin's job is onboarding paying tenants — it only ever creates the one institutional
@@ -35,6 +35,7 @@ export default function UsersPage() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(null);
   const [statusBusyId, setStatusBusyId] = useState(null);
+  const [resetBusyId, setResetBusyId] = useState(null);
 
   // Keep the form's role in sync if the active workspace changes (e.g. switching between the
   // institutional and superadmin roles) without unmounting this page.
@@ -73,18 +74,43 @@ export default function UsersPage() {
     }
   };
 
+  // Issues a new temporary password via the admin-reset-password Edge Function. The password
+  // is shown once in the message banner (same pattern as user creation) — there's no email
+  // flow in this app, so the admin has to relay it to the user out of band.
+  const resetPassword = async (row) => {
+    setResetBusyId(row.id); setMessage(null);
+    try {
+      const result = await adminResetPassword(row.id);
+      setMessage({ type: 'success', text: `Password reset for ${row.name}. New temporary password: ${result.temporary_password}` });
+    } catch (err) {
+      setMessage({ type: 'error', text: err.message });
+    } finally {
+      setResetBusyId(null);
+    }
+  };
+
   const columns = [
     { key: 'name', label: 'User' }, { key: 'primary_role', label: 'Role' }, { key: 'department', label: 'Department' },
     { key: 'status', label: 'Status', render: v => <StatusChip value={v} /> },
     { key: 'actions', label: '', render: (_v, row) => (
-      <button
-        className="btn ghost sm"
-        type="button"
-        disabled={statusBusyId === row.id}
-        onClick={() => toggleStatus(row)}
-      >
-        {statusBusyId === row.id ? 'Updating…' : row.status === 'Active' ? 'Deactivate' : 'Activate'}
-      </button>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button
+          className="btn ghost sm"
+          type="button"
+          disabled={statusBusyId === row.id}
+          onClick={() => toggleStatus(row)}
+        >
+          {statusBusyId === row.id ? 'Updating…' : row.status === 'Active' ? 'Deactivate' : 'Activate'}
+        </button>
+        <button
+          className="btn ghost sm"
+          type="button"
+          disabled={resetBusyId === row.id}
+          onClick={() => resetPassword(row)}
+        >
+          {resetBusyId === row.id ? 'Resetting…' : 'Reset password'}
+        </button>
+      </div>
     ) }
   ];
 

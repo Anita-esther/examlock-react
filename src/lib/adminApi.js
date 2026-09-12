@@ -22,3 +22,13 @@ export async function adminSetUserStatus(userId, active) {
   if (error) throw new Error(error.context?.body?.error || error.message);
   return data;
 }
+
+// Resets a user's password via the admin-reset-password Edge Function and returns a new
+// temporary password to share with them out of band. Goes through a service-role Edge Function
+// for the same reason adminSetUserStatus does — no RLS policy lets one user touch another's
+// account, and password changes need the service-role auth admin API regardless.
+export async function adminResetPassword(userId) {
+  const { data, error } = await supabase.functions.invoke('admin-reset-password', { body: { user_id: userId } });
+  if (error) throw new Error(error.context?.body?.error || error.message);
+  return data;
+}

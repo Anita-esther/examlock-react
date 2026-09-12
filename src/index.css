@@ -24,6 +24,11 @@ a{color:inherit}
 #login-form{display:flex;flex-direction:column;gap:14px}
 #login-form label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)}
 #login-form input{background:#071421;color:var(--text);border:1px solid #2a3e59;border-radius:13px;padding:12px}
+.password-field{position:relative;display:flex}
+.password-field input{width:100%;padding-right:42px}
+.password-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:transparent;border:0;padding:6px;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;border-radius:8px}
+.password-toggle:hover{color:var(--text);background:#0e2033}
+.password-toggle:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .btn{border:0;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
 .btn.gold{background:var(--gold);color:#171000}
 .btn.ghost{background:#102238;color:#d7e0ec;border:1px solid #27405f}
@@ -61,6 +66,10 @@ a{color:inherit}
 .card{background:linear-gradient(180deg,rgba(15,31,51,.98),rgba(9,22,38,.98));border:1px solid var(--line);
   border-radius:var(--radius);box-shadow:var(--shadow)}
 .pad{padding:22px}
+.role-permission-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.role-permission-item{padding:14px 16px;background:#0a1626;border:1px solid #2a3950;border-radius:13px}
+.role-permission-item strong{display:block;color:var(--text);font-size:14px}
+.role-permission-item p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
 .hero{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.85fr);gap:18px;margin-bottom:18px}
 .profile{display:flex;align-items:center;gap:18px}
 .portrait{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#315273,#111f31);

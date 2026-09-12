@@ -18,20 +18,21 @@ import ApprovalsPage from './pages/workspace/ApprovalsPage';
 import TenantsPage from './pages/workspace/TenantsPage';
 import FinancialsPage from './pages/workspace/FinancialsPage';
 import ReportsPage from './pages/workspace/ReportsPage';
+import MyRolePage from './pages/workspace/MyRolePage';
 import { canSwitchRole } from './lib/roles';
 
 // Maps each role's top-level nav routes (see lib/domain.js roleNavigation) to a page component.
 const ROLE_PAGES = {
-  student: { '/home': HomePage, '/courses': CoursesPage, '/exams': ExamsPage, '/reports': ReportsPage },
-  lecturer: { '/home': HomePage, '/operations': OperationsPage, '/courses': CoursesPage, '/exams': ExamsPage, '/reports': ReportsPage },
-  invigilator: { '/home': HomePage, '/operations': OperationsPage, '/exams': ExamsPage, '/reports': ReportsPage },
-  hod: { '/home': HomePage, '/courses': CoursesPage, '/students': StudentsPage, '/exams': ExamsPage, '/reports': ReportsPage },
-  qa: { '/home': HomePage, '/live': VenuesPage, '/integrity': IntegrityPage, '/reports': ReportsPage },
-  printer: { '/home': HomePage, '/production': BookletsPage, '/booklets': BookletsPage, '/reports': ReportsPage },
-  central: { '/home': HomePage, '/exams': ExamsPage, '/courses': CoursesPage, '/approvals': ApprovalsPage, '/reports': ReportsPage },
-  committee: { '/home': HomePage, '/cases': CasesPage, '/hearings': HearingsPage, '/reports': ReportsPage },
-  institutional: { '/home': HomePage, '/users': UsersPage, '/exams': ExamsPage, '/reports': ReportsPage },
-  superadmin: { '/home': HomePage, '/tenants': TenantsPage, '/admins': UsersPage, '/financials': FinancialsPage, '/reports': ReportsPage }
+  student: { '/home': HomePage, '/courses': CoursesPage, '/exams': ExamsPage, '/my-role': MyRolePage, '/reports': ReportsPage },
+  lecturer: { '/home': HomePage, '/operations': OperationsPage, '/courses': CoursesPage, '/exams': ExamsPage, '/my-role': MyRolePage, '/reports': ReportsPage },
+  invigilator: { '/home': HomePage, '/operations': OperationsPage, '/exams': ExamsPage, '/my-role': MyRolePage, '/reports': ReportsPage },
+  hod: { '/home': HomePage, '/courses': CoursesPage, '/students': StudentsPage, '/exams': ExamsPage, '/my-role': MyRolePage, '/reports': ReportsPage },
+  qa: { '/home': HomePage, '/live': VenuesPage, '/integrity': IntegrityPage, '/my-role': MyRolePage, '/reports': ReportsPage },
+  printer: { '/home': HomePage, '/production': BookletsPage, '/booklets': BookletsPage, '/my-role': MyRolePage, '/reports': ReportsPage },
+  central: { '/home': HomePage, '/exams': ExamsPage, '/courses': CoursesPage, '/approvals': ApprovalsPage, '/my-role': MyRolePage, '/reports': ReportsPage },
+  committee: { '/home': HomePage, '/cases': CasesPage, '/hearings': HearingsPage, '/my-role': MyRolePage, '/reports': ReportsPage },
+  institutional: { '/home': HomePage, '/users': UsersPage, '/exams': ExamsPage, '/my-role': MyRolePage, '/reports': ReportsPage },
+  superadmin: { '/home': HomePage, '/tenants': TenantsPage, '/admins': UsersPage, '/financials': FinancialsPage, '/my-role': MyRolePage, '/reports': ReportsPage }
 };
 
 function RoleWorkspace() {
