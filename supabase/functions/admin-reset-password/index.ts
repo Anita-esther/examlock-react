@@ -85,6 +85,11 @@ Deno.serve(async (req: Request) => {
     const { error: authErr } = await admin.auth.admin.updateUserById(user_id, { password: newPassword });
     if (authErr) throw { status: 400, message: authErr.message };
 
+    // A password reset is often a response to a lost/stolen device. Revoke any existing
+    // sessions so the old JWT can't keep being used after the credential changes.
+    const { error: signOutErr } = await admin.auth.admin.signOut(user_id);
+    if (signOutErr) console.error('Failed to revoke sessions after password reset:', signOutErr.message);
+
     // force_password_reset lives on profiles (not auth metadata) once a user already exists,
     // so it has to be written directly here rather than via the handle_new_user trigger path.
     const { error: updateErr } = await admin.from('profiles').update({ force_password_reset: true }).eq('id', user_id);

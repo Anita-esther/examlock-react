@@ -83,6 +83,14 @@ Deno.serve(async (req: Request) => {
     const { error: updateErr } = await admin.from('profiles').update({ status: newStatus }).eq('id', user_id);
     if (updateErr) throw { status: 400, message: updateErr.message };
 
+    // Deactivation must take effect immediately, not just at the next sign-in. Without this,
+    // a deactivated user's existing JWT keeps working (RLS doesn't check `active`) until it
+    // naturally expires. This closes that gap by revoking every live session for the account.
+    if (!active) {
+      const { error: signOutErr } = await admin.auth.admin.signOut(user_id);
+      if (signOutErr) console.error('Failed to revoke sessions for deactivated user:', signOutErr.message);
+    }
+
     await admin.from('audit_log').insert({
       tenant_id: target.tenant_id,
       actor_id: caller.id,
