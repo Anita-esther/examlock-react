@@ -101,9 +101,10 @@ export default function SecurityPage() {
           {enrolling && (
             <form onSubmit={confirmEnroll} style={{ marginTop: 16 }}>
               <p>Scan this QR code with your authenticator app, then enter the 6-digit code it generates.</p>
-              <div
-                style={{ width: 200, height: 200, background: '#fff', borderRadius: 12, padding: 10, marginBottom: 12 }}
-                dangerouslySetInnerHTML={{ __html: enrolling.qrCode }}
+              <img
+                src={enrolling.qrCode}
+                alt="Scan with your authenticator app"
+                style={{ width: 200, height: 200, background: '#fff', borderRadius: 12, padding: 10, marginBottom: 12, display: 'block' }}
               />
               <p style={{ fontSize: 12, color: 'var(--muted)' }}>Can't scan? Enter this code manually: <code>{enrolling.secret}</code></p>
               <label>Authenticator code
