@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import { useSupabaseQuery } from '../../hooks/useSupabaseQuery';
 import { supabase } from '../../lib/supabaseClient';
@@ -12,26 +13,41 @@ const SUPERADMIN_ROLE_OPTIONS = ['institutional'];
 // create another institutional admin, a superadmin, or a financials-admin account from this form.
 const INSTITUTIONAL_ROLE_OPTIONS = ['student','lecturer','invigilator','hod','qa','printer','central','committee'];
 
+const EMPTY_FORM = { name: '', email: '', role: '', staff_id: '', department: '', tenant_id: '' };
+
 export default function UsersPage() {
   const { claims, activeRole } = useAuth();
   const isSuperadminView = activeRole === 'superadmin';
   const ROLE_OPTIONS = isSuperadminView ? SUPERADMIN_ROLE_OPTIONS : INSTITUTIONAL_ROLE_OPTIONS;
 
+  // Superadmin creates institutional admins for a specific institution — needs a real list of
+  // onboarded tenants to assign one, rather than a free-text field that doesn't link to anything.
+  const { data: tenants } = useSupabaseQuery(async () => {
+    if (!isSuperadminView) return [];
+    const { data, error: err } = await supabase.from('tenants').select('id, name').order('name');
+    if (err) throw err;
+    return data || [];
+  }, [isSuperadminView]);
+  const tenantNameById = Object.fromEntries((tenants || []).map(t => [t.id, t.name]));
+
   const { data: rows, loading, error, refetch } = useSupabaseQuery(async () => {
-    let query = supabase.from('profiles').select('id, name, primary_role, department, active');
+    let query = supabase.from('profiles').select('id, name, primary_role, department, tenant_id, active');
     // Observation 2/3: superadmin's job is onboarding institutional admins, not managing any one
     // school's staff/students — so this view lists institutional-admin accounts platform-wide
     // instead of being scoped to superadmin's own (nonexistent) tenant. Institutional admins keep
     // the original tenant-scoped view of their own school's users.
+    // Belt-and-suspenders alongside the tenant_id filter: an institutional admin's own view
+    // should never be able to surface a superadmin/financials-admin row, even if a future data
+    // or seeding mistake ever gave one of those accounts a matching tenant_id again.
     query = isSuperadminView
       ? query.eq('primary_role', 'institutional')
-      : query.eq('tenant_id', claims.tenantId);
+      : query.eq('tenant_id', claims.tenantId).not('primary_role', 'in', '(superadmin,financials-admin)');
     const { data, error: err } = await query;
     if (err) throw err;
     return (data || []).map(u => ({ ...u, status: u.active ? 'Active' : 'Disabled' }));
   }, [claims.tenantId, isSuperadminView]);
 
-  const [form, setForm] = useState({ name: '', email: '', role: ROLE_OPTIONS[0], staff_id: '', department: '' });
+  const [form, setForm] = useState({ ...EMPTY_FORM, role: ROLE_OPTIONS[0] });
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(null);
   const [statusBusyId, setStatusBusyId] = useState(null);
@@ -40,7 +56,7 @@ export default function UsersPage() {
   // Keep the form's role in sync if the active workspace changes (e.g. switching between the
   // institutional and superadmin roles) without unmounting this page.
   useEffect(() => {
-    setForm(f => (ROLE_OPTIONS.includes(f.role) ? f : { ...f, role: ROLE_OPTIONS[0] }));
+    setForm({ ...EMPTY_FORM, role: ROLE_OPTIONS[0] });
   }, [isSuperadminView]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const update = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
@@ -49,9 +65,12 @@ export default function UsersPage() {
     e.preventDefault();
     setBusy(true); setMessage(null);
     try {
-      const result = await adminCreateUser(form);
+      const payload = isSuperadminView
+        ? { name: form.name, email: form.email, role: form.role, staff_id: form.staff_id, tenant_id: form.tenant_id || null }
+        : { name: form.name, email: form.email, role: form.role, staff_id: form.staff_id, department: form.department };
+      const result = await adminCreateUser(payload);
       setMessage({ type: 'success', text: `User created. Temporary password: ${result.temporary_password}` });
-      setForm({ name: '', email: '', role: ROLE_OPTIONS[0], staff_id: '', department: '' });
+      setForm({ ...EMPTY_FORM, role: ROLE_OPTIONS[0] });
       refetch();
     } catch (err) {
       setMessage({ type: 'error', text: err.message });
@@ -90,7 +109,10 @@ export default function UsersPage() {
   };
 
   const columns = [
-    { key: 'name', label: 'User' }, { key: 'primary_role', label: 'Role' }, { key: 'department', label: 'Department' },
+    { key: 'name', label: 'User' }, { key: 'primary_role', label: 'Role' },
+    isSuperadminView
+      ? { key: 'tenant_id', label: 'Institution', render: v => tenantNameById[v] || '—' }
+      : { key: 'department', label: 'Department' },
     { key: 'status', label: 'Status', render: v => <StatusChip value={v} /> },
     { key: 'actions', label: '', render: (_v, row) => (
       <div style={{ display: 'flex', gap: 8 }}>
@@ -126,8 +148,17 @@ export default function UsersPage() {
               {ROLE_OPTIONS.map(r => <option key={r} value={r}>{r}</option>)}
             </select>
           </label>
-          <label>Staff / Matric ID<input value={form.staff_id} onChange={update('staff_id')} /></label>
-          <label>Department<input value={form.department} onChange={update('department')} /></label>
+          <label>{isSuperadminView ? 'Staff ID' : 'Staff / Matric ID'}<input value={form.staff_id} onChange={update('staff_id')} /></label>
+          {isSuperadminView ? (
+            <label>Institution / University
+              <select required value={form.tenant_id} onChange={update('tenant_id')}>
+                <option value="" disabled>Select an institution…</option>
+                {(tenants || []).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+              </select>
+            </label>
+          ) : (
+            <label>Department<input value={form.department} onChange={update('department')} /></label>
+          )}
         </div>
         <button className="btn gold" type="submit" disabled={busy}>{busy ? 'Creating…' : 'Create user'}</button>
         {message && <div className={`alert ${message.type === 'error' ? 'warning' : ''}`} style={{ marginTop: 12 }}>
@@ -136,6 +167,7 @@ export default function UsersPage() {
         <p className="muted" style={{ marginTop: 10, fontSize: 12 }}>
           Provisioned via Supabase Auth by the admin-create-user Edge Function — no public sign-up exists.
           Share the temporary password with the user out of band.
+          {isSuperadminView && <> No institutions yet? Onboard one from the <Link to="/superadmin/tenants">Tenants</Link> page first.</>}
         </p>
       </form>
       {loading ? <div className="loading">Loading {isSuperadminView ? 'admins' : 'users'}…</div> :

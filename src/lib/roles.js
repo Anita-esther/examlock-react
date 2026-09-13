@@ -8,6 +8,7 @@ export function normalizeClaims({ user, profile, roles } = {}) {
     name: String(profile?.name || user?.email || ''),
     email: String(user?.email || profile?.email || ''),
     tenantId: String(profile?.tenant_id || ''),
+    department: String(profile?.department || ''),
     roles: roleList,
     primaryRole: primary,
     active: profile?.active !== false
