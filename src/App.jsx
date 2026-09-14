@@ -20,6 +20,7 @@ import FinancialsPage from './pages/workspace/FinancialsPage';
 import ReportsPage from './pages/workspace/ReportsPage';
 import MyRolePage from './pages/workspace/MyRolePage';
 import SecurityPage from './pages/workspace/SecurityPage';
+import FacultiesPage from './pages/workspace/FacultiesPage';
 import { canSwitchRole } from './lib/roles';
 
 // Maps each role's top-level nav routes (see lib/domain.js roleNavigation) to a page component.
@@ -32,7 +33,7 @@ const ROLE_PAGES = {
   printer: { '/home': HomePage, '/production': BookletsPage, '/booklets': BookletsPage, '/my-role': MyRolePage, '/security': SecurityPage, '/reports': ReportsPage },
   central: { '/home': HomePage, '/exams': ExamsPage, '/courses': CoursesPage, '/approvals': ApprovalsPage, '/my-role': MyRolePage, '/security': SecurityPage, '/reports': ReportsPage },
   committee: { '/home': HomePage, '/cases': CasesPage, '/hearings': HearingsPage, '/my-role': MyRolePage, '/security': SecurityPage, '/reports': ReportsPage },
-  institutional: { '/home': HomePage, '/users': UsersPage, '/exams': ExamsPage, '/my-role': MyRolePage, '/security': SecurityPage, '/reports': ReportsPage },
+  institutional: { '/home': HomePage, '/users': UsersPage, '/faculties': FacultiesPage, '/exams': ExamsPage, '/my-role': MyRolePage, '/security': SecurityPage, '/reports': ReportsPage },
   superadmin: { '/home': HomePage, '/tenants': TenantsPage, '/admins': UsersPage, '/financials': FinancialsPage, '/my-role': MyRolePage, '/security': SecurityPage, '/reports': ReportsPage }
 };
 

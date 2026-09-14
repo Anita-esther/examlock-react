@@ -69,6 +69,7 @@ export const roleNavigation = {
   institutional: [
     { label: 'Home', route: '/home', icon: '⌂' },
     { label: 'Users', route: '/users', icon: '♙' },
+    { label: 'Faculties', route: '/faculties', icon: '⌘' },
     { label: 'Exams', route: '/exams', icon: '▣' },
     { label: 'My Role', route: '/my-role', icon: '◈' },
     { label: 'Security', route: '/security', icon: '⛨' },
@@ -94,7 +95,7 @@ export const roleRoutes = {
   printer: ['/home','/production','/production/queue','/production/batches','/production/quality','/production/encoding','/booklets','/booklets/inventory','/booklets/dispatch','/booklets/returns','/security','/my-role','/reports'],
   central: ['/home','/exams','/exams/timetable','/exams/calendar','/exams/live','/exams/readiness','/exams/venues','/courses','/courses/readiness','/approvals','/approvals/venue-change','/approvals/activation','/security','/my-role','/reports'],
   committee: ['/home','/cases','/cases/detail','/cases/evidence','/cases/timeline','/cases/appeals','/hearings','/hearings/session','/hearings/decision','/security','/my-role','/reports'],
-  institutional: ['/home','/users','/exams','/exams/timetable','/exams/venues','/exams/live','/security','/my-role','/reports','/settings','/policies','/integrations','/audit'],
+  institutional: ['/home','/users','/faculties','/exams','/exams/timetable','/exams/venues','/exams/live','/security','/my-role','/reports','/settings','/policies','/integrations','/audit'],
   superadmin: ['/home','/tenants','/tenants/detail','/admins','/admins/financials','/financials','/financials/revenue','/financials/subscriptions','/financials/pricing','/financials/billing','/financials/payments','/financials/metering','/financials/commercialization','/financials/partners','/financials/settlements','/financials/contracts','/financials/taxes','/financials/audit','/security','/my-role','/reports','/system-health','/security','/audit']
 };
 
